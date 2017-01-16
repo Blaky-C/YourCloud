@@ -12,7 +12,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.yourcloud.yourcloud.View.Activity.SignUpActivity">
 
-
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_marginLeft="16dp"
