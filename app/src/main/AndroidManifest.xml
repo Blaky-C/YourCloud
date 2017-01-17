@@ -28,6 +28,10 @@
 
         <activity android:name=".View.Activity.SignUpActivity">
         </activity>
+        <activity android:name=".View.Activity.SignEmailActivity">
+        </activity>
+        <activity android:name=".View.Activity.SignPhoneActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -2,22 +2,61 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_menu"
+    android:id="@+id/activity_sign_email"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signup_bg1"
+    android:background="@drawable/signup_bg4"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.yourcloud.yourcloud.View.Activity.LoginActivity">
-
+    android:transitionName="signUpWithEmail"
+    tools:context="com.yourcloud.yourcloud.View.Activity.SignEmailActivity">
 
 
     <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_email_white_36dp"
+            />
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/img_user"
+            android:id="@+id/useremail"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/tv_useremail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/line1"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:id="@+id/line2"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -27,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_person_outline_white_36dp"
+            android:src="@mipmap/ic_person_white_36dp"
             />
         <android.support.design.widget.TextInputLayout
             android:layout_marginLeft="8dp"
@@ -41,17 +80,18 @@
                 android:id="@+id/tv_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
+                android:inputType="textPersonName"
                 />
 
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:id="@+id/line2"
-        android:layout_below="@+id/line1"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/line3"
+        android:layout_below="@+id/line2"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -62,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_lock_outline_white_36dp"
+            android:src="@mipmap/ic_lock_white_36dp"
             />
         <android.support.design.widget.TextInputLayout
             android:id="@+id/password"
@@ -83,30 +123,15 @@
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
-
-
     <Button
-        android:onClick="doLogin"
-        android:layout_marginTop="50dp"
-        android:id="@+id/btn_login"
-        android:background="@drawable/btn_login_bg"
-        android:layout_below="@+id/line2"
-        android:text="登录"
+        android:onClick="doSignUp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn_signup"
+        android:background="@drawable/btn_signup_bg"
+        android:layout_below="@+id/line3"
+        android:text="注册"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:onClick="doLogin"
-        android:id="@+id/tv_signup"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:layout_below="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="没有账号？点击注册"
-        android:textStyle="bold"
-        />
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/container"
@@ -114,9 +139,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         >
-
-
     </android.support.design.widget.CoordinatorLayout>
-
 
 </RelativeLayout>

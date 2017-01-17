@@ -13,6 +13,7 @@
     tools:context="com.yourcloud.yourcloud.View.Activity.SignUpActivity">
 
     <LinearLayout
+        android:onClick="doSignUp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -20,11 +21,13 @@
         android:orientation="horizontal"
         android:layout_centerInParent="true"
         android:id="@+id/line1"
+        android:transitionName="signUpWithEmail"
         android:layout_width="match_parent"
         android:background="@color/colorBlue"
         android:layout_height="wrap_content">
 
         <ImageView
+            android:background="@color/colorPrimaryDark"
             android:id="@+id/img_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +35,7 @@
             />
 
         <TextView
+            android:textColor="@android:color/white"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="8dp"
@@ -43,6 +47,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:onClick="doSignUp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/colorPurple"
@@ -50,17 +55,20 @@
         android:layout_below="@+id/line1"
         android:layout_marginTop="50dp"
         android:id="@+id/line2"
+        android:transitionName="signUpWithPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
+            android:background="@color/colorPurpleDark"
             android:id="@+id/img_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_phone_white_36dp"
+            android:src="@mipmap/ic_phone_iphone_white_36dp"
             />
 
         <TextView
+            android:textColor="@android:color/white"
             android:paddingTop="5dp"
             android:layout_width="0dp"
             android:layout_weight="1"
