@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
@@ -75,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.btn_login:
                 getUserInfo();
                 login();
-                Toast.makeText(this,"ssdfdsf",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -99,8 +97,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     return;
                 } else {
-                    Snackbar.make(mCoordinatorLayout,"登录成功",Snackbar.LENGTH_SHORT)
+                    Snackbar.make(mCoordinatorLayout, "登录成功", Snackbar.LENGTH_SHORT)
                             .show();
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
                 }
 
             }
