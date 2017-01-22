@@ -57,8 +57,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mUserName.setHint("Username");
+        mUserName.setHint("Username/PhoneNumber");
         mPassword.setHint("Password");
+        //for test
+        mUserName.setText("ritchie445412@gmail.com");
+        mPassword.setText("wshr445412");
+
         mSignUp.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mSignUp.getPaint().setAntiAlias(true);
 
@@ -97,8 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     return;
                 } else {
-                    Snackbar.make(mCoordinatorLayout, "登录成功", Snackbar.LENGTH_SHORT)
-                            .show();
+                    snackText("登录成功");
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                 }
@@ -106,6 +109,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         }, userName, password);
 
+    }
+
+    private void snackText(String string) {
+        Snackbar.make(mCoordinatorLayout, string, Snackbar.LENGTH_SHORT)
+                .show();
     }
 
 

@@ -78,20 +78,24 @@ public class SignPhoneActivity extends AppCompatActivity {
             public void onRegisterCompleted(int token, KiiUser user, Exception exception) {
                 if (exception != null) {
                     if (exception instanceof ConflictException) {
-                        Snackbar.make(mCoordinatorLayout, "该用户名已注册", Snackbar.LENGTH_SHORT)
-                                .show();
+                        snackText("该用户已注册");
                         return;
                     }
 
 
                 }else {
-                    Snackbar.make(mCoordinatorLayout, "注册成功", Snackbar.LENGTH_SHORT)
-                            .show();
+                    snackText("注册成功");
                     Intent loginIntent = new Intent(SignPhoneActivity.this, LoginActivity.class);
                     startActivity(loginIntent);
                 }
             }
         }, password);
 
+    }
+
+
+    private void snackText(String string) {
+        Snackbar.make(mCoordinatorLayout, string, Snackbar.LENGTH_SHORT)
+                .show();
     }
 }

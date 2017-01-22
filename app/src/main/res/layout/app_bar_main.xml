@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
 
@@ -46,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email"/>
+        android:src="@drawable/ic_cloud_done_white_36dp"
+        app:backgroundTint="@color/colorGreen"/>
 
 </android.support.design.widget.CoordinatorLayout>

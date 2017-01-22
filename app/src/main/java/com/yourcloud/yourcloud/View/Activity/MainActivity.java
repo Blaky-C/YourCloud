@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,9 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 
+import com.yourcloud.yourcloud.Model.Utils.Utils;
 import com.yourcloud.yourcloud.R;
+import com.yourcloud.yourcloud.View.Dialog.MessageDialog;
+import com.yourcloud.yourcloud.View.Fragment.LocalFileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,8 +31,7 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fab;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
-    @BindView(R.id.frame_layout)
-    FrameLayout frame;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +43,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initView() {
+        initFragment();
         initToolBar();
         initFloatButton();
         initDrawerLayout();
 
+    }
+
+    private void initFragment() {
+        LocalFileFragment initFragment = LocalFileFragment.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_main, initFragment).commit();
     }
 
     private void initDrawerLayout() {
@@ -70,8 +79,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initToolBar() {
-        toolbar.setTitle("YourCloud");
-        toolbar.setTitleMarginEnd(200);
         setSupportActionBar(toolbar);
 
     }
@@ -96,7 +103,14 @@ public class MainActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            MessageDialog.newInstance(
+                    R.drawable.ic_info_grey600_24dp,
+                    getString(R.string.about_title),
+                    getString(R.string.about_body,
+                            Utils.getVersionName(MainActivity.this),
+                            Utils.getVersionCode(MainActivity.this)))
+                    .show(getFragmentManager(), MessageDialog.TAG);
             return true;
         }
 
@@ -120,9 +134,13 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_about) {
+
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

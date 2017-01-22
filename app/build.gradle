@@ -19,6 +19,11 @@ android {
     }
 }
 
+repositories {
+    jcenter()
+    maven {url = "https://oss.sonatype.org/content/repositories/snapshots/" } //For Snapshots
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -41,6 +46,14 @@ dependencies {
         transitive = true
     }
 
+//    Using JCenter
+    compile 'eu.davidea:flexible-adapter:5.0.0-rc1'
+
+//    Using MavenSnapshots repository for continuous updates from my development
+    compile 'eu.davidea:flexible-adapter:5.0.0-SNAPSHOT'
+
+//    FlipView
+    compile "eu.davidea:flipview:1.1.2"
 
 
     compile 'com.android.support:support-v4:24.2.1'

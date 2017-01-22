@@ -16,7 +16,9 @@ import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int ALL_TIME = 5000;
+    //for test
+    private static int ALL_TIME = 1000;
+
     private static int TIME_INTERVAL = 1000;
 
     @BindView(R.id.tv_counter)

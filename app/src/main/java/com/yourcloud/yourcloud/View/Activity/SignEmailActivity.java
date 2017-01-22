@@ -75,13 +75,11 @@ public class SignEmailActivity extends AppCompatActivity {
             public void onRegisterCompleted(int token, KiiUser user, Exception exception) {
                 if (exception != null) {
                     if (exception instanceof ConflictException) {
-                        Snackbar.make(mCoordinatorLayout, "该用户已注册", Snackbar.LENGTH_SHORT)
-                                .show();
+                        snackText("该用户已注册");
                         return;
                     }
                 } else {
-                    Snackbar.make(mCoordinatorLayout, "注册成功", Snackbar.LENGTH_SHORT)
-                            .show();
+                   snackText("注册成功");
                     Intent loginIntent = new Intent(SignEmailActivity.this, LoginActivity.class);
                     startActivity(loginIntent);
                 }
@@ -89,5 +87,11 @@ public class SignEmailActivity extends AppCompatActivity {
             }
         }, password);
 
+    }
+
+
+    private void snackText(String string) {
+        Snackbar.make(mCoordinatorLayout, string, Snackbar.LENGTH_SHORT)
+                .show();
     }
 }
