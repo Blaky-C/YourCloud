@@ -70,7 +70,7 @@
         android:id="@+id/rear_left_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorGreen"
         android:visibility="gone">
 
         <ImageView
@@ -93,16 +93,16 @@
         android:background="@color/colorOrange"
         android:visibility="gone">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/right_image"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginEnd="@dimen/margin_right_handle"-->
-            <!--android:layout_marginRight="@dimen/margin_right_handle"-->
-            <!--android:src="@drawable/ic_archive_white_24dp"/>-->
+        <ImageView
+            android:id="@+id/right_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_right_handle"
+            android:layout_marginRight="@dimen/margin_right_handle"
+            android:src="@drawable/ic_cloud_done_white_24dp"/>
 
     </RelativeLayout>
 

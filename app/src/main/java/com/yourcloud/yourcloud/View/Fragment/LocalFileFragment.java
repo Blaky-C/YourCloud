@@ -14,14 +14,15 @@ import android.view.ViewGroup;
 import com.yourcloud.yourcloud.Model.Utils.DividerItemDecoration;
 import com.yourcloud.yourcloud.Model.Utils.FindDocFile;
 import com.yourcloud.yourcloud.Model.Utils.Utils;
+import com.yourcloud.yourcloud.Presentor.Adapter.MyFlexibleAdapter;
 import com.yourcloud.yourcloud.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import eu.davidea.fastscroller.FastScroller;
-import eu.davidea.flexibleadapter.FlexibleAdapter;
-import eu.davidea.flexibleadapter.items.IFlexible;
+import eu.davidea.flexibleadapter.SelectableAdapter;
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
 
 
 public class LocalFileFragment extends Fragment {
@@ -29,8 +30,9 @@ public class LocalFileFragment extends Fragment {
 //    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
 
+    MyFlexibleAdapter mAdapter;
 
-    public List<IFlexible> list = new ArrayList<>();
+    public List<AbstractFlexibleItem> list = new ArrayList<>();
 
     public FindDocFile mDocFile;
 
@@ -44,7 +46,7 @@ public class LocalFileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDocFile = new FindDocFile(getActivity(),
-                new String[]{".txt", ".doc", ".docx",".pdf"});
+                new String[]{".doc", ".docx",".pdf"});
 
     }
 
@@ -68,22 +70,16 @@ public class LocalFileFragment extends Fragment {
     }
 
     private void initView(View view) {
-        FlexibleAdapter<IFlexible> mAdapter = new FlexibleAdapter<>(list, getActivity(), true);
+
+        mAdapter = new MyFlexibleAdapter(list, getActivity());
+        mAdapter.setNotifyChangeOfUnfilteredItems(true)
+                .setMode(SelectableAdapter.MODE_SINGLE);
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setFastScroller((FastScroller) view.findViewById(R.id.fast_scroller),
                 Utils.getColorAccent(getActivity()));
-        mAdapter.setLongPressDragEnabled(true)
-                .setHandleDragEnabled(true)
-                .setSwipeEnabled(true)
-                .setUnlinkAllItemsOnRemoveHeaders(true)
-                // Show Headers at startUp, 1st call, correctly executed, no warning log message!
-                .setDisplayHeadersAtStartUp(true)
-                .setStickyHeaders(true)
-                // Simulate developer 2nd call mistake, now it's safe, not executed, no warning log message!
-                .setDisplayHeadersAtStartUp(true)
-                // Simulate developer 3rd call mistake, still safe, not executed, warning log message displayed!
-                .showAllHeaders();
+
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
