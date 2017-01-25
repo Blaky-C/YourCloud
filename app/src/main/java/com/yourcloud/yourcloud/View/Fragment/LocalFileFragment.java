@@ -1,5 +1,6 @@
 package com.yourcloud.yourcloud.View.Fragment;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yourcloud.yourcloud.Model.Utils.Constant;
 import com.yourcloud.yourcloud.Model.Utils.DividerItemDecoration;
 import com.yourcloud.yourcloud.Model.Utils.FindDocFile;
 import com.yourcloud.yourcloud.Model.Utils.Utils;
@@ -32,6 +34,8 @@ public class LocalFileFragment extends Fragment {
 
     MyFlexibleAdapter mAdapter;
 
+    private OnFragmentInteractionListener mListener;
+
     public List<AbstractFlexibleItem> list = new ArrayList<>();
 
     public FindDocFile mDocFile;
@@ -43,10 +47,21 @@ public class LocalFileFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() +
+                    "must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDocFile = new FindDocFile(getActivity(),
-                new String[]{".doc", ".docx",".pdf"});
+        mDocFile = new FindDocFile(getActivity(), new String[]{".doc", ".docx", ".pdf"});
+
 
     }
 
@@ -66,14 +81,17 @@ public class LocalFileFragment extends Fragment {
 
     private void initData() {
         list = mDocFile.getDataList();
+        Constant.localFileList = list;
 
     }
+
 
     private void initView(View view) {
 
         mAdapter = new MyFlexibleAdapter(list, getActivity());
         mAdapter.setNotifyChangeOfUnfilteredItems(true)
                 .setMode(SelectableAdapter.MODE_SINGLE);
+
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setFastScroller((FastScroller) view.findViewById(R.id.fast_scroller),
@@ -85,8 +103,12 @@ public class LocalFileFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-
+        mListener.onFragmentChange(mRecyclerView, SelectableAdapter.MODE_SINGLE);
     }
 
+
+    public int getContextMenuResId() {
+        return R.menu.menu_context;
+    }
 
 }

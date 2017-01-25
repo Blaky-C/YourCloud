@@ -49,4 +49,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 <br/>See the License for the specific language governing permissions and
 limitations under the License.
 ]]></string>
+
+    <!-- Action Mode -->
+    <string name="action_delete">Delete</string>
+    <string name="action_select_all">Select All</string>
+    <string name="action_selected_one">%1$s selected</string>
+    <string name="action_selected_many">%1$s selected</string>
+    <string name="action_deleted">Deleted</string>
+    <string name="action_archived">Archived</string>
+    <string name="action_merge">Merge</string>
+    <string name="action_split">Split</string>
 </resources>

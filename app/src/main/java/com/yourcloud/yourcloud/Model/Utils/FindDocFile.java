@@ -20,25 +20,42 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
 
 public class FindDocFile {
 
+    public static FindDocFile mInstance;
     public Context mContext;
     public String[] fileTypes;
     public List<AbstractFlexibleItem> fileList;
 
-    public FindDocFile(Context mContext, String[] fileTypes){
-        this.fileTypes = fileTypes;
+    public void setContext(Context mContext) {
         this.mContext = mContext;
+    }
+
+    public FindDocFile() {
+
+    }
+
+    public FindDocFile(String[] fileTypes) {
+        this.fileTypes = fileTypes;
         queryFiles();
     }
 
-    public List<AbstractFlexibleItem> getDataList(){
+    public FindDocFile(Context mContext, String[] fileTypes) {
+        this.mContext = mContext;
+        this.fileTypes = fileTypes;
+        queryFiles();
+    }
+
+
+
+    public List<AbstractFlexibleItem> getDataList() {
         return fileList;
     }
 
-    public void queryFiles(){
+
+    public void queryFiles() {
         fileList = new ArrayList<>();
 
         AbstractItem AbstractItem;
-        String[] projection = new String[] {
+        String[] projection = new String[]{
                 MediaStore.Files.FileColumns._ID,
                 MediaStore.Files.FileColumns.DATA,
                 MediaStore.Files.FileColumns.SIZE
@@ -46,15 +63,14 @@ public class FindDocFile {
 
         String selection = "";
         for (int i = 0; i < fileTypes.length; i++) {
-            if(i!=0)
-            {
-                selection=selection+" OR ";
+            if (i != 0) {
+                selection = selection + " OR ";
             }
-            selection=selection+MediaStore.Files.FileColumns.DATA+" LIKE '%"
-                    +fileTypes[i]+"'";
+            selection = selection + MediaStore.Files.FileColumns.DATA + " LIKE '%"
+                    + fileTypes[i] + "'";
         }
         Log.e("selection", selection);
-        String sortOrder=MediaStore.Files.FileColumns.DATE_MODIFIED;
+        String sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED;
 
         Cursor cursor = mContext.getContentResolver().query(
                 Uri.parse("content://media/external/file"),
@@ -76,9 +92,9 @@ public class FindDocFile {
                     AbstractItem = new SimpleItem();
                     String id = cursor.getString(idindex);
                     String path = cursor.getString(dataindex);
-                    String size = cursor.getString(sizeindex);
-                    int dot=path.lastIndexOf("/");
-                    String name=path.substring(dot+1);
+                    String size = Utils.FormatFileSize(Long.parseLong(cursor.getString(sizeindex)));
+                    int dot = path.lastIndexOf("/");
+                    String name = path.substring(dot + 1);
                     AbstractItem.setId(id);
                     AbstractItem.setName(name);
                     AbstractItem.setPath(path);

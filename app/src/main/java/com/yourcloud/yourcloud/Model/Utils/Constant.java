@@ -3,7 +3,11 @@ package com.yourcloud.yourcloud.Model.Utils;
 import com.yourcloud.yourcloud.R;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
+import eu.davidea.flexibleadapter.items.IFlexible;
 
 /**
  * Created by ritchie-huang on 17-1-21.
@@ -11,6 +15,10 @@ import java.util.Map;
 
 public class Constant {
     public final static Map<String, Integer> mMap = new HashMap<>();
+
+    public static Constant mInstance;
+
+    public static List<AbstractFlexibleItem> localFileList;
 
     static {
         mMap.put("A", R.color.material_color_amber_300);
@@ -41,4 +49,19 @@ public class Constant {
         mMap.put("Z", R.color.colorPurpleDark);
     }
 
+    public static Constant getInstance() {
+        if (mInstance == null) {
+            mInstance = new Constant();
+        }
+        return mInstance;
+    }
+
+    public static List<AbstractFlexibleItem> getLocalFileList() {
+        return localFileList;
+    }
+
+
+    public void removeItem(IFlexible item) {
+        localFileList.remove(item);
+    }
 }
