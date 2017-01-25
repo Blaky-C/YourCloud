@@ -30,5 +30,4 @@ public class MyFlexibleAdapter extends FlexibleAdapter<AbstractFlexibleItem> {
 
 
 
-
 }
