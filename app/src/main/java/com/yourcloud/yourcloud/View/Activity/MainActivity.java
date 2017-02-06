@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements
     private RecyclerView mRecyclerView;
 
 
-
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fab)
