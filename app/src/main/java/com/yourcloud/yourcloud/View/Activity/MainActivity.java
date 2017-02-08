@@ -1,6 +1,7 @@
 package com.yourcloud.yourcloud.View.Activity;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -12,11 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.kii.cloud.storage.Kii;
+import com.kii.cloud.storage.KiiBucket;
 import com.yourcloud.yourcloud.Model.Items.AbstractItem;
 import com.yourcloud.yourcloud.Model.Items.HeaderItem;
 import com.yourcloud.yourcloud.Model.Items.SimpleItem;
@@ -26,6 +30,9 @@ import com.yourcloud.yourcloud.R;
 import com.yourcloud.yourcloud.View.Dialog.MessageDialog;
 import com.yourcloud.yourcloud.View.Fragment.LocalFileFragment;
 import com.yourcloud.yourcloud.View.Fragment.OnFragmentInteractionListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,10 +50,12 @@ public class MainActivity extends AppCompatActivity implements
         OnFragmentInteractionListener,
         FlexibleAdapter.OnItemClickListener,
         FlexibleAdapter.OnItemLongClickListener,
-        FlexibleAdapter.OnItemMoveListener{
+        FlexibleAdapter.OnItemMoveListener,
+        FlexibleAdapter.OnItemSwipeListener{
 
     private static final String STATE_ACTIVE_FRAGMENT = "active_fragment";
     private final String TAG = MainActivity.class.getSimpleName();
+    KiiBucket mBucket;
 
     private FlexibleAdapter<AbstractFlexibleItem> mAdapter;
     private ActionModeHelper mActionModeHelper;
@@ -56,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.container)
+    CoordinatorLayout container;
     @BindView(R.id.fab)
     FloatingActionButton fab;
     @BindView(R.id.drawer_layout)
@@ -69,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         initView(savedInstanceState);
+        initKii();
+    }
+
+    private void initKii() {
+         mBucket = Kii.user().bucket("my_bucket");
     }
 
 
@@ -198,12 +214,8 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
+        if (id == R.id.nav_localFiles) {
+            mFragment = LocalFileFragment.newInstance();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -253,9 +265,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         //TODO : this doesn't work with all types of items (of course)..... we need to implement some custom logic. Consider to use also onActionStateChanged() when dragging is completed
-//		DatabaseService.getInstance().swapItems(
-//				DatabaseService.getInstance().getDatabaseList().indexOf(fromItem),
-//				DatabaseService.getInstance().getDatabaseList().indexOf(toItem));
+//		Constant.getInstance().swapItems(
+//				Constant.getInstance().getLocalFileList().indexOf(fromPosition),
+//				Constant.getInstance().getLocalFileList().indexOf(toPosition));
     }
 
     //    ActionMode
@@ -309,10 +321,7 @@ public class MainActivity extends AppCompatActivity implements
                         .remove(mAdapter.getSelectedPositions(),
                                 findViewById(R.id.main_view), message,
                                 "取消", 7000);
-
                 return true;
-
-
             default:
                 return false;
         }
@@ -372,6 +381,81 @@ public class MainActivity extends AppCompatActivity implements
                     Log.d(TAG, "Confirm removed " + adapterItem);
                 }
             }
+        }
+    }
+
+    @Override
+    public void onItemSwipe(final int position, int direction) {
+        Log.i(TAG, "onItemSwipe position=" + position +
+                " direction=" + (direction == ItemTouchHelper.LEFT ? "LEFT" : "RIGHT"));
+
+        // Option 1 FULL_SWIPE: Direct action no Undo Action
+        // Do something based on direction when item has been swiped:
+        //   A) update item, set "read" if an email etc.
+        //   B) remove the item from the adapter;
+
+        // Option 2 FULL_SWIPE: Delayed action with Undo Action
+        // Show action button and start a new Handler:
+        //   A) on time out do something based on direction (open dialog with options);
+
+        // Create list for single position (only in onItemSwipe)
+        List<Integer> positions = new ArrayList<>(1);
+        positions.add(position);
+        // Build the message
+        IFlexible abstractItem = mAdapter.getItem(position);
+        StringBuilder message = new StringBuilder();
+        message.append(extractTitleFrom(abstractItem)).append(" ");
+        // Experimenting NEW feature
+        if (abstractItem.isSelectable())
+            mAdapter.setRestoreSelectionOnUndo(false);
+
+        // Perform different actions
+        // Here, option 2A) is implemented
+        if (direction == ItemTouchHelper.LEFT) {
+            message.append(getString(R.string.action_archived));
+
+            // Example of UNDO color
+            int actionTextColor;
+            if (Utils.hasMarshmallow()) {
+                actionTextColor = getColor(R.color.colorOrange);
+            } else {
+                //noinspection deprecation
+                actionTextColor = getResources().getColor(R.color.colorOrange);
+            }
+
+            new UndoHelper(mAdapter, this)
+                    .withPayload(null) //You can pass any custom object (in this case Boolean is enough)
+                    .withAction(UndoHelper.ACTION_UPDATE, new UndoHelper.SimpleActionListener() {
+                        @Override
+                        public boolean onPreAction() {
+                            // Return true to avoid default immediate deletion.
+                            // Ask to the user what to do, open a custom dialog. On option chosen,
+                            // remove the item from Adapter list as usual.
+                            return true;
+                        }
+                    })
+                    .withActionTextColor(actionTextColor)
+                    .remove(positions, findViewById(R.id.main_view), message,
+                            getString(R.string.undo), UndoHelper.UNDO_TIMEOUT);
+
+            //Here, option 1B) is implemented
+        } else if (direction == ItemTouchHelper.RIGHT) {
+            message.append(getString(R.string.action_uploaded));
+//            mSwipeRefreshLayout.setRefreshing(true);
+            new UndoHelper(mAdapter, this)
+                    .withPayload(null) //You can pass any custom object (in this case Boolean is enough)
+                    .withAction(UndoHelper.ACTION_REMOVE, new UndoHelper.SimpleActionListener() {
+                        @Override
+                        public void onPostAction() {
+                            // Handle ActionMode title
+                            if (mAdapter.getSelectedItemCount() == 0)
+                                mActionModeHelper.destroyActionModeIfCan();
+                            else
+                                mActionModeHelper.updateContextTitle(mAdapter.getSelectedItemCount());
+                        }
+                    })
+                    .remove(positions, findViewById(R.id.main_view), message,
+                            getString(R.string.undo), UndoHelper.UNDO_TIMEOUT);
         }
     }
 

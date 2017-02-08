@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.yourcloud.yourcloud.Model.Utils.Constant;
 import com.yourcloud.yourcloud.Model.Utils.DividerItemDecoration;
-import com.yourcloud.yourcloud.Model.Utils.FindDocFile;
 import com.yourcloud.yourcloud.Model.Utils.Utils;
 import com.yourcloud.yourcloud.Presentor.Adapter.MyFlexibleAdapter;
 import com.yourcloud.yourcloud.R;
@@ -29,7 +28,6 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
 
 public class LocalFileFragment extends Fragment {
 
-//    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
 
     MyFlexibleAdapter mAdapter;
@@ -37,8 +35,6 @@ public class LocalFileFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public List<AbstractFlexibleItem> list = new ArrayList<>();
-
-    public FindDocFile mDocFile;
 
     public static LocalFileFragment newInstance() {
         LocalFileFragment fragment = new LocalFileFragment();
@@ -60,7 +56,6 @@ public class LocalFileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDocFile = new FindDocFile(getActivity(), new String[]{".doc", ".docx", ".pdf"});
 
 
     }
@@ -71,7 +66,6 @@ public class LocalFileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_local_file, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-//        ButterKnife.bind(view);
 
         initData();
         initView(view);
@@ -80,8 +74,7 @@ public class LocalFileFragment extends Fragment {
     }
 
     private void initData() {
-        list = mDocFile.getDataList();
-        Constant.localFileList = list;
+        list = Constant.localFileList;
 
     }
 
@@ -96,12 +89,27 @@ public class LocalFileFragment extends Fragment {
 
         mAdapter.setFastScroller((FastScroller) view.findViewById(R.id.fast_scroller),
                 Utils.getColorAccent(getActivity()));
-
+        mAdapter.expandItemsAtStartUp()
+                .setAutoCollapseOnExpand(false)
+                .setAutoScrollOnExpand(true)
+                .setAnimateToLimit(Integer.MAX_VALUE)
+                .setLongPressDragEnabled(true)
+                .setHandleDragEnabled(true)
+                .setSwipeEnabled(true)
+                .setUnlinkAllItemsOnRemoveHeaders(true)
+                // Show Headers at startUp, 1st call, correctly executed, no warning log message!
+                .setDisplayHeadersAtStartUp(true)
+                .setStickyHeaders(true)
+                // Simulate developer 2nd call mistake, now it's safe, not executed, no warning log message!
+                .setDisplayHeadersAtStartUp(true)
+                // Simulate developer 3rd call mistake, still safe, not executed, warning log message displayed!
+                .showAllHeaders();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         mListener.onFragmentChange(mRecyclerView, SelectableAdapter.MODE_SINGLE);
     }

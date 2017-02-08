@@ -12,5 +12,5 @@
     <color name="colorRed">#e22929</color>
     <color name="colorGray">#9e9e9e</color>
     <color name="colorAccentDark_light">#c51162</color><!-- Pink A700: for statusBar in actionMode -->
-
+    <color name="colorWhite">#ffff</color>
 </resources>

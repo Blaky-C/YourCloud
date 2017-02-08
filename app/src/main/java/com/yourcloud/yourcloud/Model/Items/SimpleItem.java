@@ -21,6 +21,7 @@ import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.helpers.AnimatorHelper;
+import eu.davidea.flexibleadapter.items.IFilterable;
 import eu.davidea.flexibleadapter.items.ISectionable;
 import eu.davidea.flexibleadapter.utils.DrawableUtils;
 import eu.davidea.flexibleadapter.utils.Utils;
@@ -32,7 +33,7 @@ import eu.davidea.viewholders.FlexibleViewHolder;
  */
 
 public class SimpleItem extends AbstractItem<SimpleItem.SimpleViewHolder>
-        implements ISectionable<SimpleItem.SimpleViewHolder, HeaderItem> {
+        implements ISectionable<SimpleItem.SimpleViewHolder, HeaderItem> ,IFilterable{
 
     HeaderItem header;
     FlipViewUtil mFlipViewUtil;
@@ -45,18 +46,19 @@ public class SimpleItem extends AbstractItem<SimpleItem.SimpleViewHolder>
     }
 
     public SimpleItem(HeaderItem header) {
+        this();
         this.header = header;
 
     }
 
     @Override
     public HeaderItem getHeader() {
-        return null;
+        return header;
     }
 
     @Override
     public void setHeader(HeaderItem header) {
-
+        this.header = header;
     }
 
     @Override
@@ -103,6 +105,12 @@ public class SimpleItem extends AbstractItem<SimpleItem.SimpleViewHolder>
             holder.mFlipView.setFrontText(name);
             holder.mSubtitle.setText(getSize());
         }
+    }
+
+    @Override
+    public boolean filter(String constraint) {
+        return getName() != null && getName().toLowerCase().trim().contains(constraint) ||
+                getPath() != null && getPath().toLowerCase().trim().contains(constraint);
     }
 
     public class SimpleViewHolder extends FlexibleViewHolder {

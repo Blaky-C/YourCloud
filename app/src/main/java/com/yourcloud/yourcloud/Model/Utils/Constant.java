@@ -2,6 +2,7 @@ package com.yourcloud.yourcloud.Model.Utils;
 
 import com.yourcloud.yourcloud.R;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +61,11 @@ public class Constant {
         return localFileList;
     }
 
-
     public void removeItem(IFlexible item) {
         localFileList.remove(item);
+    }
+
+    public void swapItems(int indexFrom, int indexTo) {
+        Collections.swap(localFileList,indexFrom,indexTo);
     }
 }
