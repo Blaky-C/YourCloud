@@ -61,4 +61,15 @@ limitations under the License.
     <string name="action_merge">Merge</string>
     <string name="action_split">Split</string>
     <string name="undo">\"Undo\"</string>
+    <string name="localfiles">LocalFiles</string>
+    <string name="cloudfiles">CloudFiles</string>
+    <string name="tools">Tools</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="about">About</string>
+    <string name="communicate">Communicate</string>
+    <string name="no_items">No items</string>
+    <string name="uploadfiles">UploadFiles</string>
+    <string name="downloadfiles">DownloadFiles</string>
+    <string name="yourcloud">YourCloud</string>
 </resources>

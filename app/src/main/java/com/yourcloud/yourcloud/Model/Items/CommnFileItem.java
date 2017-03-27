@@ -8,7 +8,7 @@ import eu.davidea.viewholders.FlexibleViewHolder;
  * Created by ritchie-huang on 17-1-20.
  */
 
-public abstract class AbstractItem<VH extends FlexibleViewHolder>
+public abstract class CommnFileItem<VH extends FlexibleViewHolder>
         extends AbstractFlexibleItem<VH> {
 
     String id;
@@ -25,7 +25,7 @@ public abstract class AbstractItem<VH extends FlexibleViewHolder>
         this.name = name;
     }
 
-    public AbstractItem() {
+    public CommnFileItem() {
     }
 
     public String getId() {
@@ -54,8 +54,8 @@ public abstract class AbstractItem<VH extends FlexibleViewHolder>
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof AbstractItem) {
-            AbstractItem item = (AbstractItem) o;
+        if (o instanceof CommnFileItem) {
+            CommnFileItem item = (CommnFileItem) o;
             return this.id.equals(item.id);
         }
         return false;

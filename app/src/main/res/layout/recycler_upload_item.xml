@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeightLarge">
+
+    <RelativeLayout
+        android:id="@+id/front_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
+
+
+        <LinearLayout
+            android:id="@+id/title_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginStart="@dimen/margin_left"
+            android:layout_toEndOf="@id/image"
+            android:layout_toRightOf="@id/image"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                tools:text="Title"/>
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                tools:text="Subtitle"/>
+
+
+            <io.netopen.hotbitmapgg.library.view.RingProgressBar
+                android:id="@+id/progress_bar_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="100dp"
+                app:max="100"
+                app:ringColor="@color/colorPrimary"
+                app:ringProgressColor="@color/colorPrimaryDark"
+                app:ringWidth="3dp"
+                app:style="FILL"
+                app:textColor="@color/colorPrimary"
+                app:textIsShow="true"
+                app:textSize="16sp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

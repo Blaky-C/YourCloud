@@ -32,7 +32,7 @@ import eu.davidea.viewholders.FlexibleViewHolder;
  * Created by ritchie-huang on 17-1-24.
  */
 
-public class SimpleItem extends AbstractItem<SimpleItem.SimpleViewHolder>
+public class SimpleItem extends CommnFileItem<SimpleItem.SimpleViewHolder>
         implements ISectionable<SimpleItem.SimpleViewHolder, HeaderItem> ,IFilterable{
 
     HeaderItem header;
@@ -99,9 +99,10 @@ public class SimpleItem extends AbstractItem<SimpleItem.SimpleViewHolder>
             Utils.highlightText(holder.mSubtitle, getSize(), adapter.getSearchText());
         } else {
             mFlipViewUtil = new FlipViewUtil();
-            mFlipViewUtil.setFirstLetter(getName());
-            String name = mFlipViewUtil.getFirstLetter();
-            holder.mTitle.setText(getName());
+            String Name = getName();
+            mFlipViewUtil.setFirstLetter(Name);
+            String name = mFlipViewUtil.getUpperFirstLetter();
+            holder.mTitle.setText(Name);
             holder.mFlipView.setFrontText(name);
             holder.mSubtitle.setText(getSize());
         }
@@ -132,14 +133,11 @@ public class SimpleItem extends AbstractItem<SimpleItem.SimpleViewHolder>
             this.mTitle = (TextView) view.findViewById(R.id.title);
             this.mSubtitle = (TextView) view.findViewById(R.id.subtitle);
             this.mFlipView = (FlipView) view.findViewById(R.id.image);
-            this.mFlipView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mAdapter.mItemLongClickListener != null) {
-                        mAdapter.mItemLongClickListener.onItemLongClick(getAdapterPosition());
-                        Toast.makeText(mContext, "ImageClick on " + mTitle.getText() + " position " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                        toggleActivation();
-                    }
+            this.mFlipView.setOnClickListener(v -> {
+                if (mAdapter.mItemLongClickListener != null) {
+                    mAdapter.mItemLongClickListener.onItemLongClick(getAdapterPosition());
+                    Toast.makeText(mContext, "ImageClick on " + mTitle.getText() + " position " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                    toggleActivation();
                 }
             });
 //            this.mHandleView = (ImageView) view.findViewById(R.id.row_handle);

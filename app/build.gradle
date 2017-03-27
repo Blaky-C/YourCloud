@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.yourcloud.yourcloud"
         minSdkVersion 21
@@ -10,6 +10,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        jackOptions {
+            enabled true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
@@ -55,6 +63,8 @@ dependencies {
 //    FlipView
     compile "eu.davidea:flipview:1.1.2"
 
+//    Progressbar
+    compile 'com.github.HotBitmapGG:RingProgressBar:V1.2.2'
 
     compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'

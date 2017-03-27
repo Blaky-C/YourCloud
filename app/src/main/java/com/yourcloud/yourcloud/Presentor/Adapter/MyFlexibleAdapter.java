@@ -3,6 +3,7 @@ package com.yourcloud.yourcloud.Presentor.Adapter;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
@@ -16,11 +17,13 @@ public class MyFlexibleAdapter extends FlexibleAdapter<AbstractFlexibleItem> {
 
     private static final String TAG = MyFlexibleAdapter.class.getSimpleName();
 
-    private Context mContext;
+    private List<AbstractFlexibleItem> dataList = new ArrayList<>();
 
+    private Context mContext;
 
     public MyFlexibleAdapter(@Nullable List<AbstractFlexibleItem> items, @Nullable Object listeners) {
         super(items, listeners);
+        this.dataList = items;
     }
 
     @Override
@@ -28,6 +31,8 @@ public class MyFlexibleAdapter extends FlexibleAdapter<AbstractFlexibleItem> {
         return super.isEmpty();
     }
 
-
+    public List<AbstractFlexibleItem> getDataList() {
+        return dataList;
+    }
 
 }

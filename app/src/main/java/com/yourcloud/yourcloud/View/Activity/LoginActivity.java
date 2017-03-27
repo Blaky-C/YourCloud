@@ -3,6 +3,7 @@ package com.yourcloud.yourcloud.View.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -14,8 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.kii.cloud.storage.Kii;
+import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
+import com.yourcloud.yourcloud.Model.Utils.KiiUtils;
 import com.yourcloud.yourcloud.R;
 
 import butterknife.BindView;
@@ -60,8 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         mUserName.setHint("Username/PhoneNumber");
         mPassword.setHint("Password");
         //for test
-        mUserName.setText("ritchie445412@gmail.com");
-        mPassword.setText("wshr445412");
+//        mUserName.setText("ritchie445412@gmail.com");
+//        mPassword.setText("wshr445412");
 
         mSignUp.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mSignUp.getPaint().setAntiAlias(true);
@@ -85,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-    public void getUserInfo(){
+
+    public void getUserInfo() {
         userName = mUserName.getText().toString();
         password = mPassword.getText().toString();
 
@@ -93,16 +98,18 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void login() {
-
         KiiUser.logIn(new KiiUserCallBack() {
             @Override
             public void onLoginCompleted(int token, KiiUser user, Exception exception) {
                 if (exception != null) {
-
+                    snackText("用户名或密码错误");
                     return;
                 } else {
                     snackText("登录成功");
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                    KiiBucket mKiiBucket = user.bucket(user.getID() + "_bucket");
+                    new KiiUtils().queryObject();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("userName", userName);
                     startActivity(intent);
                 }
 

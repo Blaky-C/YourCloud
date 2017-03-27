@@ -6,10 +6,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.yourcloud.yourcloud.Model.Items.AbstractItem;
-import com.yourcloud.yourcloud.Model.Items.HeaderItem;
-import com.yourcloud.yourcloud.Model.Items.SimpleItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +22,11 @@ public class FindSpecificFile {
     public Context mContext;
     public String[] fileTypes;
     public List<AbstractFlexibleItem> fileList;
-    public HeaderItem headerItem;
-
+    private String fileType;
+    public DBDao mDBDao;
 
     public void setContext(Context mContext) {
         this.mContext = mContext;
-    }
-
-    public FindSpecificFile() {
     }
 
     public FindSpecificFile(String[] fileTypes) {
@@ -41,23 +34,19 @@ public class FindSpecificFile {
         queryFiles();
     }
 
-    public FindSpecificFile(Context mContext, String[] fileTypes, HeaderItem headerItem) {
-        this.headerItem = headerItem;
+    public FindSpecificFile(Context mContext, String[] fileTypes,String fileType) {
         this.mContext = mContext;
         this.fileTypes = fileTypes;
+        this.fileType = fileType;
+        mDBDao = new DBDao(mContext);
         queryFiles();
     }
 
-    public List<AbstractFlexibleItem> getDataList() {
-        return fileList;
-    }
 
 
     public void queryFiles() {
         fileList = new ArrayList<>();
 
-        AbstractItem AbstractItem;
-        int index = 0;
         String[] projection = new String[]{
                 MediaStore.Files.FileColumns._ID,
                 MediaStore.Files.FileColumns.DATA,
@@ -81,8 +70,6 @@ public class FindSpecificFile {
                 selection,
                 null,
                 sortOrder);
-        String docFileNumbers = String.valueOf(cursor.getCount());
-        headerItem.setSubtitle(docFileNumbers);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -94,18 +81,14 @@ public class FindSpecificFile {
                 int sizeindex = cursor
                         .getColumnIndex(MediaStore.Files.FileColumns.SIZE);
                 do {
-                    AbstractItem = new SimpleItem(headerItem);
 
                     String id = cursor.getString(idindex);
                     String path = cursor.getString(dataindex);
                     String size = Utils.FormatFileSize(Long.parseLong(cursor.getString(sizeindex)));
                     int dot = path.lastIndexOf("/");
                     String name = path.substring(dot + 1);
-                    AbstractItem.setId(id);
-                    AbstractItem.setName(name);
-                    AbstractItem.setPath(path);
-                    AbstractItem.setSize(size);
-                    fileList.add(AbstractItem);
+
+                    mDBDao.addFile(id,fileType,name,size,path);
 
                     Log.e("test", name);
                 } while (cursor.moveToNext());

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="localfiles">LocalFiles</string>
+    <string name="cloudfiles">CloudFiles</string>
+    <string name="tools">Tools</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="about">About</string>
+    <string name="communicate">Communicate</string>
+</resources>

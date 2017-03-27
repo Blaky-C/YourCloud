@@ -2,6 +2,7 @@ package com.yourcloud.yourcloud.Model.Utils;
 
 import com.yourcloud.yourcloud.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +17,27 @@ import eu.davidea.flexibleadapter.items.IFlexible;
 
 public class Constant {
     public final static Map<String, Integer> mMap = new HashMap<>();
+    public final static String APP_ID = "64d50f0c";
+    public final static String APP_KEY = "9807f0e1f17ef6876097ce8373443894";
+    public final static int CLOUD_OBJECT = 0x001;
+    public final static int UPLOAD_PROCESS = 0x000EEF;
+    public final static int DOWNLOAD_PROCESS = 0xEF000;
+
+
+    public final static Map<String, String> FILE_TYPE_MAP = new HashMap<String, String>() {{
+        put("1", "文档");
+        put("2", "音乐");
+        put("3", "图片");
+        put("4", "视频");
+        put("5", "压缩文件");
+    }};
+
 
     public static Constant mInstance;
 
-    public static List<AbstractFlexibleItem> localFileList;
+
+    public static List<AbstractFlexibleItem> cloudFileList;
+
 
     static {
         mMap.put("A", R.color.material_color_amber_300);
@@ -57,15 +75,10 @@ public class Constant {
         return mInstance;
     }
 
-    public static List<AbstractFlexibleItem> getLocalFileList() {
-        return localFileList;
+
+    public static List<AbstractFlexibleItem> getCloudFileList() {
+        return cloudFileList;
     }
 
-    public void removeItem(IFlexible item) {
-        localFileList.remove(item);
-    }
 
-    public void swapItems(int indexFrom, int indexTo) {
-        Collections.swap(localFileList,indexFrom,indexTo);
-    }
 }
